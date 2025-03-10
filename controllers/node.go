@@ -678,6 +678,11 @@ func updateNode(w http.ResponseWriter, r *http.Request) {
 		logic.UpdateRelayed(&currentNode, newNode)
 	}
 
+	newNodesWithStatus := logic.AddStatusToNodes([]models.Node{*newNode}, false)
+	if len(newNodesWithStatus) > 0 {
+		newNode = &newNodesWithStatus[0]
+	}
+
 	apiNode := newNode.ConvertToAPINode()
 	logger.Log(
 		1,
